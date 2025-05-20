@@ -2,7 +2,7 @@ const config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
-    backgroundColor: '#000000',
+    backgroundColor: '#FFD700',
     physics: {
         default: 'arcade',
         arcade: {
@@ -24,16 +24,22 @@ function preload() {}
 
 function create() {
     ball = this.physics.add.sprite(400, 300, null).setDisplaySize(15, 15).setTint(0xffffff);
-    paddleLeft = this.physics.add.staticSprite(50, 300).setDisplaySize(20, 100).setTint(0xffffff);
-    paddleRight = this.physics.add.staticSprite(750, 300).setDisplaySize(20, 100).setTint(0xffffff);
-
+ 
+    // Add rectangle paddles
+    paddleLeft = this.add.rectangle(500, 300, 200, 100, 0xffffff);
+    paddleRight = this.add.rectangle(750, 300, 200, 100, 0xffffff);
+ 
+    // Enable physics
+    this.physics.add.existing(paddleLeft, true);
+    this.physics.add.existing(paddleRight, true);
+ 
     ball.setVelocity(200, 200);
     ball.setCollideWorldBounds(true);
     ball.setBounce(1);
-
+ 
     this.physics.add.collider(ball, paddleLeft, () => score++);
     this.physics.add.collider(ball, paddleRight);
-
+ 
     cursors = this.input.keyboard.createCursorKeys();
 }
 
